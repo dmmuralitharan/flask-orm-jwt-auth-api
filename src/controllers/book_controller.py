@@ -1,10 +1,10 @@
-from flask import Blueprint, jsonify, request, abort
+from flask import jsonify, request
 from src import db
-from src.models import Book
+from src.models.book_model import Book
 
 def get_all_books_controller():
     try:
-        books = Book.query.all()
+        books = Book.query.filter(Book.delete_status == 1).all()
         books_list = [{
             'id': book.id,
             'book_name': book.book_name,
@@ -34,7 +34,7 @@ def create_book_controller():
 
 def get_by_id_book_controller(id):
     try:
-        book = Book.query.get_or_404(id)
+        book = Book.query.filter(Book.id == id, Book.delete_status == 1).first()
         return jsonify({
             'id': book.id,
             'book_name': book.book_name,

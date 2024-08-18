@@ -38,7 +38,7 @@ def create_app():
     # Import routes
     from src.routes.auth_routes import auth_bp
     from src.routes.book_routes import book_bp
-    app.register_blueprint(auth_bp)
-    app.register_blueprint(book_bp)
+    app.register_blueprint(auth_bp, url_prefix="/api/v1/auth")
+    app.register_blueprint(book_bp, url_prefix="/api/v1/books")
 
     return app
