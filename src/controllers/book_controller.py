@@ -7,13 +7,13 @@ def get_all_books_controller():
         books = Book.query.filter(Book.delete_status == 1).all()
         books_list = [{
             'id': book.id,
-            'book_name': book.book_name,
+            'bookName': book.book_name,
             'price': book.price,
-            'date_created': book.date_created,
-            'date_modified': book.date_modified,
-            'delete_status': book.delete_status
+            'dateCreated': book.date_created,
+            'dateModified': book.date_modified,
+            'deleteStatus': book.delete_status
         } for book in books]
-        return jsonify(books_list)
+        return jsonify({"books": books_list})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
