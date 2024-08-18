@@ -1,7 +1,6 @@
 from flask import Blueprint
 from src.controllers.book_controller import *
 
-
 book_bp = Blueprint('books', __name__)
 
 # Get a book all books
