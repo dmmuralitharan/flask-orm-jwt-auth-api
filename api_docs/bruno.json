@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "flask-orm-jwt-auth-example-api",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

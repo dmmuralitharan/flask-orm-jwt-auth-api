@@ -1,0 +1,17 @@
+meta {
+  name: Update a Book
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://127.0.0.1:5000/api/v1/books/2
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "price": 600
+  }
+}
