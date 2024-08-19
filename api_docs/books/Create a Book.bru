@@ -7,12 +7,17 @@ meta {
 post {
   url: http://127.0.0.1:5000/api/v1/books
   body: json
-  auth: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjQxMzUyMjIsImlhdCI6MTcyNDA0ODgyMiwidXNlcm5hbWUiOiJ0ZXN0MSIsInJvbGUiOiJ1c2VyIn0.1DX2qji1hPrMc5itIRKFoB-gC3hgh8r_3DZj_5U3HPs
 }
 
 body:json {
   {
-    "book_name": "Angular 18 1st Edition",
+    "book_name": "TypeScript 1st Edition",
+    "user_id": 3,
     "price": 400
   }
 }

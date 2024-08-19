@@ -2,12 +2,15 @@ from flask import jsonify, request
 from src import db
 from src.models.book_model import Book
 
-def get_all_books_controller():
+def get_all_books_controller(current_user):
     try:
-        books = Book.query.filter(Book.delete_status == 1).all()
+
+        user_id = current_user.id
+        books = Book.query.filter(Book.delete_status == 1, Book.user_id == user_id).all()
         books_list = [{
             'id': book.id,
             'bookName': book.book_name,
+            'user_id': book.user_id,
             'price': book.price,
             'dateCreated': book.date_created,
             'dateModified': book.date_modified,
@@ -17,12 +20,14 @@ def get_all_books_controller():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-def create_book_controller():
+def create_book_controller(current_user):
     try:
         data = request.get_json()
         
+        user_id = current_user.id
         book = Book(
             book_name=data['book_name'],
+            user_id=user_id,
             price=data['price'],
         )
         db.session.add(book)
@@ -32,9 +37,11 @@ def create_book_controller():
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
-def get_by_id_book_controller(id):
+def get_by_id_book_controller(id, current_user):
     try:
-        book = Book.query.filter(Book.id == id, Book.delete_status == 1).first()
+        user_id = current_user.id
+
+        book = Book.query.filter(Book.id == id, Book.user_id == user_id, Book.delete_status == 1).first()
         return jsonify({
             'id': book.id,
             'book_name': book.book_name,
@@ -46,10 +53,13 @@ def get_by_id_book_controller(id):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-def update_book_controller(id):
+def update_book_controller(id, current_user):
     try:
+
         data = request.get_json()
-        book = Book.query.get_or_404(id)
+        user_id = current_user.id
+        book = Book.query.filter(Book.id == id, Book.user_id == user_id).first_or_404()
+
         if 'book_name' in data:
             book.book_name = data['book_name']
         if 'price' in data:
@@ -62,9 +72,12 @@ def update_book_controller(id):
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
-def delete_book_controller(id):
+def delete_book_controller(id, current_user):
     try:
-        book = Book.query.get_or_404(id)
+
+        user_id = current_user.id
+        book = Book.query.filter(Book.id == id, Book.user_id == user_id).first_or_404()
+
         book.delete_status = False
         db.session.commit()
         return jsonify({'message': 'Book deleted successfully'})
