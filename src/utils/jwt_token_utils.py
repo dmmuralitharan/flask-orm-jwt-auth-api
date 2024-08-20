@@ -38,7 +38,7 @@ def token_required(f):
             if not current_user:
                 return jsonify({'message': 'User not found'}), 404
             
-            print(current_user)
+            # print(current_user)
             return f(current_user=current_user, role=token_data['role'], *args, **kwargs)
         
         except jwt.ExpiredSignatureError:
